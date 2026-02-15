@@ -18,7 +18,9 @@ def plot_bar_chart(days, temp_min, temp_max):
     plt.xlabel("Days")
     plt.ylabel("Temperature (°C)")
     plt.title("5 Day Weather Forecast - Bar Chart")
+    plt.xticks(rotation=90)  
     plt.legend()
+    plt.tight_layout()
     st.pyplot(plt)
 
 # Line Chart Function
@@ -29,7 +31,9 @@ def plot_line_chart(days, temp_min, temp_max):
     plt.xlabel("Days")
     plt.ylabel("Temperature (°C)")
     plt.title("5 Day Weather Forecast - Line Chart")
+    plt.xticks(rotation=90)  
     plt.legend()
+    plt.tight_layout()        
     st.pyplot(plt)
 
 # ------------------ STREAMLIT UI ------------------
@@ -51,8 +55,11 @@ if city:
     daily_data = {}
 
     # Collect all temperatures day-wise
+    from datetime import datetime
     for w in weather_list:
-        date = w.reference_time("iso")
+        full_datetime = w.reference_time("iso")
+        dt_obj = datetime.fromisoformat(full_datetime.replace("Z", "+00:00"))
+        date = dt_obj.strftime("%b %d %H:%M")
 
         temp = w.temperature("celsius")
         t_min = temp["temp_min"]
